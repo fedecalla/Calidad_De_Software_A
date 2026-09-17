@@ -1,7 +1,7 @@
 package persistencia;
 
 import static org.junit.Assert.*;
-
+import src.main.java.persistencia.AsociadoDTO
 import org.junit.Test;
 
 public class AsociadoDTOTest {
@@ -28,8 +28,11 @@ public class AsociadoDTOTest {
 	}
 
 	@Test
-	public void testGetApellido() {
-		fail("Not yet implemented");
+	public void testGetApellido()
+	{
+		entidad.setApellido("Rodriguez");
+		assertEquals("Rodriguez", entidad.getApellido());
+
 	}
 
 	@Test
