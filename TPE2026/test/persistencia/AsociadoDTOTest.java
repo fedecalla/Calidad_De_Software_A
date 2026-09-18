@@ -8,6 +8,9 @@ public class AsociadoDTOTest {
 
     private final AsociadoDTO entidad = new AsociadoDTO();
 
+    
+    // NOMBRE
+    
     @Test
     public void testGetNombre() {
         entidad.setNombre("Federico");
@@ -24,39 +27,67 @@ public class AsociadoDTOTest {
         entidad.setNombre("Pedro");
         assertEquals("Pedro", entidad.getNombre());
     }
+    
+    
+    // APELLIDO
 
     @Test
     public void testGetApellido() {
-        entidad.setApellido("Rodriguez");
-        assertEquals("Rodriguez", entidad.getApellido());
+        entidad.setApellido("Perez");
+        assertEquals("Perez", entidad.getApellido());
     }
 
     @Test(expected = AssertionError.class)
     public void testSetApellidoInvalido() {
         entidad.setApellido(null);
     }
+    
+    @Test
+    public void testSetApellidoValido() {
+        entidad.setApellido("Perez");
+        assertEquals("Perez", entidad.getApellido());
+    }
+    
+    // DNI
 
     @Test
     public void testGetDni() {
-        entidad.setDni("30123456");
-        assertEquals("30123456", entidad.getDni());
+        entidad.setDni("12345678");
+        assertEquals("12345678", entidad.getDni());
     }
 
     @Test(expected = AssertionError.class)
     public void testSetDniInvalido() {
         entidad.setDni(null);
     }
+    
+    @Test
+    public void testSetDniValido() {
+        entidad.setDni("12345678");
+        assertEquals("12345678", entidad.getDni());
+    }
+    
+    
+    // CIUDAD
 
     @Test
     public void testGetCiudad() {
-        entidad.setCiudad("Córdoba");
-        assertEquals("Córdoba", entidad.getCiudad());
+        entidad.setCiudad("Mar del Plata");
+        assertEquals("Mar del Plata", entidad.getCiudad());
     }
 
     @Test(expected = AssertionError.class)
     public void testSetCiudadInvalido() {
         entidad.setCiudad(null);
     }
+    
+    @Test
+    public void testSetCiudadValido() {
+        entidad.setCiudad("Mar del Plata");
+        assertEquals("Mar del Plata", entidad.getCiudad());
+    }
+    
+    // CALLE
 
     @Test
     public void testGetCalle() {
@@ -70,6 +101,14 @@ public class AsociadoDTOTest {
     }
 
     @Test
+    public void testSetCalleValido() {
+        entidad.setCalle("San Martín");
+        assertEquals("San Martín", entidad.getCalle());
+    }
+    
+    // NUMERO
+    
+    @Test
     public void testGetNumero() {
         entidad.setNumero(1234);
         assertEquals(1234, entidad.getNumero());
@@ -77,18 +116,32 @@ public class AsociadoDTOTest {
 
     @Test(expected = AssertionError.class)
     public void testSetNumeroInvalido() {
-        entidad.setNumero(0);
+        entidad.setNumero(-1);
     }
+    
+    @Test
+    public void testSetNumeroValido() {
+        entidad.setNumero(0);
+        assertEquals(0, entidad.getNumero());
+    }
+    
+    // TELEFONO
 
     @Test
     public void testGetTelefono() {
-        entidad.setTelefono("3511234567");
-        assertEquals("3511234567", entidad.getTelefono());
+        entidad.setTelefono("223 457 9863");
+        assertEquals("223 457 9863", entidad.getTelefono());
     }
 
     @Test(expected = AssertionError.class)
     public void testSetTelefonoInvalido() {
         entidad.setTelefono(null);
+    }
+    
+    @Test
+    public void testSetTelefonoValido() {
+        entidad.setTelefono("223 457 9863");
+        assertEquals("223 457 9863", entidad.getTelefono());
     }
 
 }
