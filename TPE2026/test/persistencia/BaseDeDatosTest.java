@@ -8,9 +8,11 @@ public class BaseDeDatosTest {
 
 	@Test
 	public void testGetInstancia() {
-		fail("Not yet implemented");
+		BaseDeDatos instancia1 = BaseDeDatos.getInstancia();
+		BaseDeDatos instancia2 = BaseDeDatos.getInstancia();
+		
+		assertSame(instancia1, instancia2);
 	}
-
 	@Test
 	public void testCerrarConexion() {
 		fail("Not yet implemented");
