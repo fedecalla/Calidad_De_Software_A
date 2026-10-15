@@ -37,7 +37,7 @@ public class AsociadoDTOTest {
         assertEquals("Perez", entidad.getApellido());
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = AssertionErrorx.class)
     public void testSetApellidoInvalido() {
         entidad.setApellido(null);
     }
