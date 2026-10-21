@@ -1,147 +1,92 @@
 package persistencia;
 
-import static org.junit.Assert.assertEquals;
-
+import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class AsociadoDTOTest {
 
-    private final AsociadoDTO entidad = new AsociadoDTO();
+    private AsociadoDTO asociadoDTO;
 
-    
-    // NOMBRE
-    
+    @Before
+    public void setUp() {
+        asociadoDTO = new AsociadoDTO();
+    }
+
     @Test
-    public void testGetNombre() {
-        entidad.setNombre("Federico");
-        assertEquals("Federico", entidad.getNombre());
+    public void constructorParametrizadoInicializaTodosLosAtributos() {
+        AsociadoDTO dto = new AsociadoDTO(
+                "Federico", "Perez", "12345678", "Mar del Plata",
+                "San Martin", 1234, "2234579863");
+
+        assertEquals("Federico", dto.getNombre());
+        assertEquals("Perez", dto.getApellido());
+        assertEquals("12345678", dto.getDni());
+        assertEquals("Mar del Plata", dto.getCiudad());
+        assertEquals("San Martin", dto.getCalle());
+        assertEquals(1234, dto.getNumero());
+        assertEquals("2234579863", dto.getTelefono());
+    }
+
+    @Test
+    public void settersValidosAsignanLosAtributos() {
+        asociadoDTO.setNombre("Federico");
+        asociadoDTO.setApellido("Perez");
+        asociadoDTO.setDni("12345678");
+        asociadoDTO.setCiudad("Mar del Plata");
+        asociadoDTO.setCalle("San Martin");
+        asociadoDTO.setNumero(1234);
+        asociadoDTO.setTelefono("2234579863");
+
+        assertEquals("Federico", asociadoDTO.getNombre());
+        assertEquals("Perez", asociadoDTO.getApellido());
+        assertEquals("12345678", asociadoDTO.getDni());
+        assertEquals("Mar del Plata", asociadoDTO.getCiudad());
+        assertEquals("San Martin", asociadoDTO.getCalle());
+        assertEquals(1234, asociadoDTO.getNumero());
+        assertEquals("2234579863", asociadoDTO.getTelefono());
+    }
+
+    @Test
+    public void numeroCeroEsValido() {
+        asociadoDTO.setNumero(0);
+
+        assertEquals(0, asociadoDTO.getNumero());
     }
 
     @Test(expected = AssertionError.class)
-    public void testSetNombreInvalido() {
-        entidad.setNombre(null);
-    }
-
-    @Test
-    public void testSetNombreValido() {
-        entidad.setNombre("Pedro");
-        assertEquals("Pedro", entidad.getNombre());
-    }
-    
-    
-    // APELLIDO
-
-    @Test
-    public void testGetApellido() {
-        entidad.setApellido("Perez");
-        assertEquals("Perez", entidad.getApellido());
-    }
-
-    @Test(expected = AssertionErrorx.class)
-    public void testSetApellidoInvalido() {
-        entidad.setApellido(null);
-    }
-    
-    @Test
-    public void testSetApellidoValido() {
-        entidad.setApellido("Perez");
-        assertEquals("Perez", entidad.getApellido());
-    }
-    
-    // DNI
-
-    @Test
-    public void testGetDni() {
-        entidad.setDni("12345678");
-        assertEquals("12345678", entidad.getDni());
+    public void nombreNuloEsRechazado() {
+        asociadoDTO.setNombre(null);
     }
 
     @Test(expected = AssertionError.class)
-    public void testSetDniInvalido() {
-        entidad.setDni(null);
-    }
-    
-    @Test
-    public void testSetDniValido() {
-        entidad.setDni("12345678");
-        assertEquals("12345678", entidad.getDni());
-    }
-    
-    
-    // CIUDAD
-
-    @Test
-    public void testGetCiudad() {
-        entidad.setCiudad("Mar del Plata");
-        assertEquals("Mar del Plata", entidad.getCiudad());
+    public void apellidoNuloEsRechazado() {
+        asociadoDTO.setApellido(null);
     }
 
     @Test(expected = AssertionError.class)
-    public void testSetCiudadInvalido() {
-        entidad.setCiudad(null);
-    }
-    
-    @Test
-    public void testSetCiudadValido() {
-        entidad.setCiudad("Mar del Plata");
-        assertEquals("Mar del Plata", entidad.getCiudad());
-    }
-    
-    // CALLE
-
-    @Test
-    public void testGetCalle() {
-        entidad.setCalle("San Martín");
-        assertEquals("San Martín", entidad.getCalle());
+    public void dniNuloEsRechazado() {
+        asociadoDTO.setDni(null);
     }
 
     @Test(expected = AssertionError.class)
-    public void testSetCalleInvalido() {
-        entidad.setCalle(null);
-    }
-
-    @Test
-    public void testSetCalleValido() {
-        entidad.setCalle("San Martín");
-        assertEquals("San Martín", entidad.getCalle());
-    }
-    
-    // NUMERO
-    
-    @Test
-    public void testGetNumero() {
-        entidad.setNumero(1234);
-        assertEquals(1234, entidad.getNumero());
+    public void ciudadNulaEsRechazada() {
+        asociadoDTO.setCiudad(null);
     }
 
     @Test(expected = AssertionError.class)
-    public void testSetNumeroInvalido() {
-        entidad.setNumero(-1);
-    }
-    
-    @Test
-    public void testSetNumeroValido() {
-        entidad.setNumero(0);
-        assertEquals(0, entidad.getNumero());
-    }
-    
-    // TELEFONO
-
-    @Test
-    public void testGetTelefono() {
-        entidad.setTelefono("223 457 9863");
-        assertEquals("223 457 9863", entidad.getTelefono());
+    public void calleNulaEsRechazada() {
+        asociadoDTO.setCalle(null);
     }
 
     @Test(expected = AssertionError.class)
-    public void testSetTelefonoInvalido() {
-        entidad.setTelefono(null);
-    }
-    
-    @Test
-    public void testSetTelefonoValido() {
-        entidad.setTelefono("223 457 9863");
-        assertEquals("223 457 9863", entidad.getTelefono());
+    public void telefonoNuloEsRechazado() {
+        asociadoDTO.setTelefono(null);
     }
 
+    @Test(expected = AssertionError.class)
+    public void numeroNegativoEsRechazado() {
+        asociadoDTO.setNumero(-1);
+    }
 }

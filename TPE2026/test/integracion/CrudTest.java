@@ -1,6 +1,8 @@
 package integracion;
 
 import modelo.modeloDominio.clinica.Clinica;
+import modelo.modeloDominio.personas.asociado.Asociado;
+import modelo.modeloDominio.util.Domicilio;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -25,10 +27,10 @@ public class CrudTest {
 
 
     @BeforeClass
-    static void Init(){
-        //aca deberiamos de iniciar el servidor en el cual corre la base de datos
-        entidad = Clinica.getInstancia();
-        testDao = new DataAccessObject();
+    public static void Init(){
+
+        entidad = Clinica.getInstancia(); //entidad que unifica la integracion de las funcionalidades del sistema
+        testDao = new DataAccessObject(); //entidad que me servira para el
         ingresados = new HashMap<>();
                 ingresados.put(1, "Juan State");
                 ingresados.put(2, "Maria Template");
@@ -63,12 +65,14 @@ public class CrudTest {
     public void testGetAsociados() throws SQLException{
         // llamar a la clinica para insertar un asociado
         ArrayList<AsociadoDTO> fetched = entidad.getAsociadosDTO();
+        int j =0;
         for(int i = 1; i<21; i++){
-            Assert.assertEquals(ingresados.get(i),fetched.get(i));
+            Assert.assertEquals(ingresados.get(i),(fetched.get(j).getNombre())+" "+(fetched.get(j).getApellido()));
+            j++;
         }
     }
     @Test
-    public void testCrearAsociado() throws SQLException { // devuelvo la excepcion aca por que no es testeable
+    public void testGuardarAsociado() throws SQLException { // devuelvo la excepcion aca por que no es testeable
 
         entidad.guardarNuevoAsociado(new AsociadoDTO(
                 "Salvador",
@@ -81,8 +85,19 @@ public class CrudTest {
         ));
         assertEquals("el sistema no guardo el asociado correcto", "47156529",testDao.cargar(21).getDni());
     }
+    @Before
+    public void SetUpEliminarAsociado(){
+
+    }
+
+    //TEST PARA LA BAJA DE ASOCIADOS DE LA BASE DE DATOS
+    //CORRE A PARTIR DE LA FUNCION DE LA CLASE CLINICA -> Public void eliminarAsociado(String dni) throws SQLException
     @Test
-    public void testEliminarAsociado(){
+    public void testEliminarAsociado() throws SQLException{
+
+    testDao.guardar(new Asociado("federico", "calla","12345678","2231234567",new Domicilio("paunero",4000,"mar del plata")));
+
+
 
     }
 
