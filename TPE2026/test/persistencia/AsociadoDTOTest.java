@@ -31,19 +31,19 @@ public class AsociadoDTOTest {
 
     @Test
     public void settersValidosAsignanLosAtributos() {
-        asociadoDTO.setNombre("Federico");
+        asociadoDTO.setNombre("Pedro");
         asociadoDTO.setApellido("Perez");
         asociadoDTO.setDni("12345678");
         asociadoDTO.setCiudad("Mar del Plata");
-        asociadoDTO.setCalle("San Martin");
+        asociadoDTO.setCalle("Paunero");
         asociadoDTO.setNumero(1234);
         asociadoDTO.setTelefono("2234579863");
 
-        assertEquals("Federico", asociadoDTO.getNombre());
+        assertEquals("Pedro", asociadoDTO.getNombre());
         assertEquals("Perez", asociadoDTO.getApellido());
         assertEquals("12345678", asociadoDTO.getDni());
         assertEquals("Mar del Plata", asociadoDTO.getCiudad());
-        assertEquals("San Martin", asociadoDTO.getCalle());
+        assertEquals("Paunero", asociadoDTO.getCalle());
         assertEquals(1234, asociadoDTO.getNumero());
         assertEquals("2234579863", asociadoDTO.getTelefono());
     }
