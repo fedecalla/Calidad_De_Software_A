@@ -13,6 +13,18 @@ public class BaseDeDatosTest {
 		
 		assertSame(instancia1, instancia2);
 	}
+	
+	@Test
+	public void testCargarDriver() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testAbrirConexion() {
+		fail("Not yet implemented");
+	}
+	
+	
 	@Test
 	public void testCerrarConexion() {
 		fail("Not yet implemented");
