@@ -17,14 +17,14 @@ public class AsociadoDTOTest {
     @Test
     public void constructorParametrizadoInicializaTodosLosAtributos() {
         AsociadoDTO dto = new AsociadoDTO(
-                "Federico", "Perez", "12345678", "Mar del Plata",
-                "San Martin", 1234, "2234579863");
+                "Pedro", "Perez", "12345678", "Mar del Plata",
+                "Paunero", 1234, "2234579863");
 
-        assertEquals("Federico", dto.getNombre());
+        assertEquals("Pedro", dto.getNombre());
         assertEquals("Perez", dto.getApellido());
         assertEquals("12345678", dto.getDni());
         assertEquals("Mar del Plata", dto.getCiudad());
-        assertEquals("San Martin", dto.getCalle());
+        assertEquals("Paunero", dto.getCalle());
         assertEquals(1234, dto.getNumero());
         assertEquals("2234579863", dto.getTelefono());
     }
