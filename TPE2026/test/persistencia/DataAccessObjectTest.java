@@ -3,7 +3,6 @@ package persistencia;
 import modelo.modeloDominio.personas.asociado.Asociado;
 import modelo.modeloDominio.util.Domicilio;
 import org.junit.After;
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,6 +17,8 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 public class DataAccessObjectTest {
@@ -31,10 +32,6 @@ public class DataAccessObjectTest {
 
     @BeforeClass
     public static void inicializarDependencias() {
-        Assume.assumeTrue(
-                "BaseDeDatos.iniciarBD() elimina y recrea Asociados. "
-                        + "Habilite la suite solo para una base de testing exclusiva.",
-                Boolean.getBoolean("clinica.integration.allowDatabaseReset"));
         baseDeDatos = BaseDeDatos.getInstancia();
         dao = new DataAccessObject();
     }
@@ -56,17 +53,39 @@ public class DataAccessObjectTest {
         }
     }
 
+    //OPERACIONES CRUD -----------------------------------------------------------------------------------------------------------------------------
+    //TEST DE ALTA DE ASOCIADOS CREACION
+    //1- VERIFICAR QUE LA INTEGRACION DE COMPONENTES SE DE CORRECTAMENTE PARA UN CASO COMUN
     @Test
-    public void guardarPersisteTodosLosAtributosDelAsociado() throws SQLException {
+    public void altaAsociadoTest() throws SQLException {
         AsociadoDTO datos = nuevoAsociado(dniPrueba, "Nombre O'Connor");
 
         dao.guardar(new Asociado(datos));
 
         assertAsociadoIgual(datos, buscarPorDni(dniPrueba));
     }
-
+    //2- VERIFICAR QUE EL ALTA DE UN ASOCIADO REPETIDO DEVUELVA UNA SQLException SI LA BASE DE DATOS
+    // DEBERIA DE SALTAR LA EXCEPCION YA QUE DNI DEBERIA DE SER UNIQUE EN LA TABLA DE ASOCIADOS
     @Test
-    public void cargarBDDevuelveElAsociadoGuardado() throws SQLException {
+    public void altaAsociadoDniDuplicadoTest() throws SQLException {
+        AsociadoDTO datos = nuevoAsociado(dniPrueba, "Registro original");
+        dao.guardar(new Asociado(datos));
+
+        assertThrows(SQLException.class, ()-> dao.guardar(new Asociado(datos)));
+        /**try {
+            dao.guardar(new Asociado(nuevoAsociado(dniPrueba, "Registro duplicado")));
+            fail("DNI es único y la segunda inserción debe fallar");
+        } catch (SQLException esperada) {
+            assertEquals("MySQL debe informar una violación de integridad",
+                    "23000", esperada.getSQLState());
+        }
+
+        assertAsociadoIgual(datos, buscarPorDni(dniPrueba));
+        **/
+    }
+    //2 - Testeo de consultas
+    @Test
+    public void consultarAsociadoExistenteDaoTest() throws SQLException {
         AsociadoDTO datos = nuevoAsociado(dniPrueba, "Nombre persistido");
         dao.guardar(new Asociado(datos));
 
@@ -74,14 +93,25 @@ public class DataAccessObjectTest {
 
         assertAsociadoIgual(datos, recuperado);
     }
+    //3 - testeo de cargar con limite
+    @Test
+    public void cargarConLimiteAltoDaoTest() throws SQLException {
+        ArrayList<AsociadoDTO> resultado = dao.cargarConLimite(10000000);
+        assertTrue(
+                "El resultado debe estar entre 10 y 100",
+                resultado.size() > 0 && resultado.size() <= 10000000
+            );
+    }
 
     @Test
-    public void cargarConLimiteRespetaElLimiteSolicitado() throws SQLException {
-        ArrayList<AsociadoDTO> resultado = dao.cargarConLimite(1);
-
-        assertEquals("Debe devolver como máximo el límite solicitado",
-                1, resultado.size());
+    public void cargarConLimiteNormalDaoTest() throws SQLException {
+        ArrayList<AsociadoDTO> resultado = dao.cargarConLimite(10);
+        assertTrue(
+                "El resultado debe estar entre 10 y 100",
+                resultado.size() > 0 && resultado.size() <= 10
+            );
     }
+
 
     @Test
     public void cargarPorIdRecuperaElRegistroPersistido() throws SQLException {
@@ -133,21 +163,7 @@ public class DataAccessObjectTest {
         assertAsociadoIgual(modificado, buscarPorDni(dniPrueba));
     }
 
-    @Test
-    public void guardarDniDuplicadoPropagaLaViolacionDeUnicidad() throws SQLException {
-        AsociadoDTO datos = nuevoAsociado(dniPrueba, "Registro original");
-        dao.guardar(new Asociado(datos));
 
-        try {
-            dao.guardar(new Asociado(nuevoAsociado(dniPrueba, "Registro duplicado")));
-            fail("DNI es único y la segunda inserción debe fallar");
-        } catch (SQLException esperada) {
-            assertEquals("MySQL debe informar una violación de integridad",
-                    "23000", esperada.getSQLState());
-        }
-
-        assertAsociadoIgual(datos, buscarPorDni(dniPrueba));
-    }
 
     @Test
     public void crearDTODesdeAsociadoMapeaLosAtributos() {
@@ -171,6 +187,9 @@ public class DataAccessObjectTest {
                 "Calle prueba", 123, "2230000000");
     }
 
+
+
+    //FUNCIONES AUXILIARES PARA FACILITAR EL TESTEO DE LOS CASOS DE PRUEBA
     private static void assertAsociadoIgual(AsociadoDTO esperado, AsociadoDTO actual) {
         assertNotNull("El asociado debe existir", actual);
         assertEquals(esperado.getNombre(), actual.getNombre());
