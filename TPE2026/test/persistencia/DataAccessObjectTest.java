@@ -339,4 +339,12 @@ public class DataAccessObjectTest {
 		}
 	}
 
+    private String generarDniUnico() throws SQLException {
+        String dni;
+        do {
+            dni = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
+        } while (buscarPorDni(dni) != null);
+        dnisDePrueba.add(dni);
+        return dni;
+    }
 }
