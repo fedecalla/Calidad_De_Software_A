@@ -341,10 +341,11 @@ public class DataAccessObjectTest {
 
     private String generarDniUnico() throws SQLException {
         String dni;
-        do {
+        /**do {
             dni = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
         } while (buscarPorDni(dni) != null);
-        dnisDePrueba.add(dni);
+        dnisDePrueba.add(dni);**/
+		dni = "3520861";
         return dni;
     }
 }
